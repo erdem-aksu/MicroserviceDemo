@@ -1,0 +1,30 @@
+﻿{
+  "version": "1.0.0",
+  "name": "auth-server",
+  "private": true,
+  "scripts": {
+    "watch": "yarn && gulp buildDev",
+    "build": "yarn && gulp build"
+  },
+  "dependencies": {
+    "@abp/aspnetcore.mvc.ui.theme.basic": "~7.0.0",
+    "@volo/account": "~7.0.0"
+  },
+  "devDependencies": {
+    "extend-object": "^1.0.0",
+    "glob": "^7.1.7",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^3.0.0",
+    "gulp-less": "^4.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify-es": "^3.0.0",
+    "merge-stream": "^2.0.0",
+    "micromatch": "^4.0.4",
+    "sass": "^1.49.0",
+    "postcss-url": "^9.0.0",
+    "rimraf": "^3.0.2"
+  }
+}

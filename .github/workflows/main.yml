@@ -1,0 +1,69 @@
+name: Dotnet Publish
+
+on:
+  push:
+    branches:
+      - master
+    tags: [ '*.*.*' ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  publish-dotnet:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - uses: actions/cache@v2
+        id: cache-nuget
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - uses: actions/cache@v2
+        id: cache-publish
+        with:
+          path: publish
+          key: ${{ runner.os }}-publish-${{ github.run_id }}
+      - name: Build and publish dotnet
+        run: cd nupkg && bash publish.sh
+  
+  publish-docker-image:
+    needs: [ publish-dotnet ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        id: cache-publish
+        with:
+          path: publish
+          key: ${{ runner.os }}-publish-${{ github.run_id }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker image
+        if: steps.cache-publish.outputs.cache-hit == 'true'
+        run: |
+          export DOCKER_IMAGE_PREFIX=${REGISTRY}/${IMAGE_NAME,,}
+          if [ "${{ github.ref_type }}" == "tag" ]; then
+            export DOCKER_IMAGE_TAG=${{ github.ref_name }}
+          fi
+          docker-compose -f docker-compose.yml pull || true
+          docker-compose -f docker-compose.yml build --pull --build-arg CACHEBUST="$(date +%s)"
+          docker-compose -f docker-compose.yml push

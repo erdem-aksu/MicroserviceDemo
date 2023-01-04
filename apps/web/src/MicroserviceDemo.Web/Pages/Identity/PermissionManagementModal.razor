@@ -1,0 +1,38 @@
+﻿@inherits WebComponentBase
+
+<MudDialog @ref="Modal">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@L["Permissions"] - @EntityDisplayName</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudCheckBox T="bool" @bind-Checked="@GrantAll" Label="@L["SelectAllInAllTabs"]"/>
+
+        @if (Groups != null)
+        {
+            <MudTabs Position="Position.Left" Centered="false" Border="true" Rounded="true" ApplyEffectsToContainer="true" MaxHeight="300">
+                @foreach (var group in Groups)
+                {
+                    <MudTabPanel ID="@GetNormalizedGroupName(group.Name)" Text="@(group.DisplayName + " (" + group.Permissions.Count(x => x.IsGranted) + ")")">
+                        <MudContainer Style="max-height: 300px; overflow-y: scroll">
+                            <MudPaper Width="100%" Elevation="0" Square="false" Outlined="false" Class="px-4">
+                                <MudText Typo="Typo.h6" Class="mb-2">@group.DisplayName</MudText>
+
+                                <MudCheckBox T="bool" Class="d-flex" Checked="@(group.Permissions.All(x => x.IsGranted))" CheckedChanged="@(b => GroupGrantAllChanged(b, group))" Label="@L["SelectAllInThisTab"]"/>
+                                <MudDivider/>
+
+                                @foreach (var permission in group.Permissions)
+                                {
+                                    <MudCheckBox T="bool" Class="d-flex" Disabled="@(IsDisabledPermission(permission))" Checked="@permission.IsGranted" CheckedChanged="@(b => PermissionChanged(b, group, permission))" Label="@GetShownName(permission)"/>
+                                }
+                            </MudPaper>
+                        </MudContainer>
+                    </MudTabPanel>
+                }
+            </MudTabs>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CloseModal">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SaveAsync">@L["Save"]</MudButton>
+    </DialogActions>
+</MudDialog>

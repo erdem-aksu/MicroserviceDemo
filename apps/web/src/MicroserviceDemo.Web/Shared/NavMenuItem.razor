@@ -1,0 +1,25 @@
+﻿@using Volo.Abp.UI.Navigation
+@{
+    var url = MenuItem.Url == null ? "#" : MenuItem.Url.TrimStart('/', '~');
+}
+
+@if (MenuItem.IsLeaf)
+{
+    if (MenuItem.Url != null)
+    {
+        <MudNavLink Href="@url" Class="@MenuItem.CssClass" Disabled="@MenuItem.IsDisabled" Match="NavLinkMatch.All" Icon="@MenuItem.Icon">@MenuItem.DisplayName</MudNavLink>
+    }
+    else
+    {
+        <MudText Typo="Typo.subtitle2" Color="Color.Inherit" Class="ml-4 my-3">@MenuItem.DisplayName</MudText>
+    }
+}
+else
+{
+    <MudNavGroup Class="@MenuItem.CssClass" Disabled="@MenuItem.IsDisabled" Icon="@MenuItem.Icon" Title="@MenuItem.DisplayName">
+        @foreach (var menuItem in MenuItem.Items)
+        {
+            <NavMenuItem MenuItem="@menuItem"></NavMenuItem>
+        }
+    </MudNavGroup>
+}

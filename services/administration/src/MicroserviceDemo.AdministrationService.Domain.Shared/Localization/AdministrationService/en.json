@@ -1,0 +1,20 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "Permission:TenantManagement": "Tenant management",
+    "Permission:Create": "Create",
+    "Permission:Edit": "Edit",
+    "Permission:Delete": "Delete",
+    "Permission:ManageConnectionStrings": "Manage connection strings",
+    "Permission:ManageFeatures": "Manage features",
+    "Permission:FeatureManagement": "Feature management",
+    "Permission:FeatureManagement.ManageHostFeatures": "Manage Host features",
+    "Permission:IdentityManagement": "Identity Management",
+    "Permission:RoleManagement": "Role Management",
+    "Permission:ChangePermissions": "Change permissions",
+    "Permission:UserManagement": "User Management",
+    "Permission:UserLookup": "User lookup",
+    "Permission:Dashboard": "Dashboard",
+    "Permission:SettingManagement": "Setting Management"
+  }
+}

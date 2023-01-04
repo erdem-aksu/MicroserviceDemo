@@ -1,0 +1,20 @@
+﻿{
+  "culture": "tr",
+  "texts": {
+    "Permission:TenantManagement": "Müşteri yönetimi",
+    "Permission:Create": "Oluşturma",
+    "Permission:Edit": "Düzenleme",
+    "Permission:Delete": "Silme",
+    "Permission:ManageConnectionStrings": "Bağlantı cümlelerini yönet",
+    "Permission:ManageFeatures": "Özellikleri yönet",
+    "Permission:FeatureManagement": "Özellik yönetimi",
+    "Permission:FeatureManagement.ManageHostFeatures": "Host özelliklerini düzenle",
+    "Permission:IdentityManagement": "Kimlik Yönetimi",
+    "Permission:RoleManagement": "Rol Yönetimi",
+    "Permission:ChangePermissions": "İzinleri değiştir",
+    "Permission:UserManagement": "Kullanıcı Yönetimi",
+    "Permission:UserLookup": "Kullanıcı Arama",
+    "Permission:Dashboard": "Ana sayfa",
+    "Permission:SettingManagement": "Ayar Yönetimi"
+  }
+}

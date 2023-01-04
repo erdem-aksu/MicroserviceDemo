@@ -1,0 +1,12 @@
+@using Volo.Abp.Identity
+@inherits WebComponentBase
+
+@(Data.As<IdentityRoleDto>().Name)
+@if (Data.As<IdentityRoleDto>().IsDefault)
+{
+    <MudBadge Color="Color.Primary" Class="ml-1">@L["DisplayName:IsDefault"]</MudBadge>
+}
+@if (Data.As<IdentityRoleDto>().IsPublic)
+{
+    <MudBadge Color="Color.Default" Class="ml-1">@L["DisplayName:IsPublic"]</MudBadge>
+}

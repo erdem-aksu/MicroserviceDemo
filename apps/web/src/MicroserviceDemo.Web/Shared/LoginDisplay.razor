@@ -1,0 +1,45 @@
+﻿@using Volo.Abp.Users
+@using Volo.Abp.MultiTenancy
+@using Microsoft.Extensions.Localization
+@using MicroserviceDemo.Localization
+@namespace MicroserviceDemo.Web.Shared
+@inject ICurrentUser CurrentUser
+@inject ICurrentTenant CurrentTenant
+@inject NavigationManager Navigation
+@inject IStringLocalizer<MicroserviceDemoResource> L
+
+<AuthorizeView>
+    <Authorized>
+        <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4" Color="Color.Inherit" Icon="@Icons.Material.Outlined.Person">
+            <ChildContent>
+                <MudCard Elevation="0" Square="true">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Variant="Variant.Filled" Color="Color.Primary">
+                                @CurrentUser.UserName[..1].ToUpperInvariant()
+                            </MudAvatar>
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            @if (CurrentTenant.Name != null)
+                            {
+                                <MudText Typo="Typo.body2">@CurrentTenant.Name</MudText>
+                            }
+                            <MudText Typo="Typo.caption">@CurrentUser.UserName</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudCard>
+                <MudDivider Class="mb-2"/>
+                @if (Menu != null)
+                {
+                    foreach (var menuItem in Menu.Items)
+                    {
+                        <MudListItem Text="@menuItem.DisplayName" Icon="@menuItem.Icon" Href="@menuItem.Url?.TrimStart('~')" ForceLoad="@true"/>
+                    }
+                }
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+    <NotAuthorized>
+        <MudButton StartIcon="@Icons.Material.Outlined.Login" Size="Size.Medium" Color="Color.Inherit" Class="ml-4" Variant="Variant.Outlined" Link="/Account/Login">@L["Login"]</MudButton>
+    </NotAuthorized>
+</AuthorizeView>

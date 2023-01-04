@@ -1,0 +1,30 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_themeManager.Theme"/>
+<MudDialogProvider MaxWidth="MaxWidth.ExtraSmall" FullWidth="true" Position="DialogPosition.Center" CloseButton="true" DisableBackdropClick="true"/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="_themeManager.AppBarElevation">
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(DrawerToggle)"/>
+        <MudHidden Breakpoint="Breakpoint.Xs" IsHidden="_drawerOpen">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <MudText Typo="Typo.h6" Class="ml-4">MicroserviceDemo</MudText>
+            </MudHidden>
+        </MudHidden>
+        <MudSpacer/>
+        <LanguageSwitch/>
+        <LoginDisplay/>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="_themeManager.DrawerElevation" ClipMode="_themeManager.DrawerClipMode">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6" Class="mt-1">MicroserviceDemo</MudText>
+        </MudDrawerHeader>
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+    <MudThemeManagerButton OnClick="@(() => OpenThemeManager(true))"/>
+    <MudThemeManager Open="_themeManagerOpen" OpenChanged="OpenThemeManager" Theme="_themeManager" ThemeChanged="UpdateTheme"/>
+</MudLayout>

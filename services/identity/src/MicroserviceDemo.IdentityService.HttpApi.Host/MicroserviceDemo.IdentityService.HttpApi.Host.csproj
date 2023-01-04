@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>MicroserviceDemo.IdentityService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(MicrosoftEntityFrameworkCorePackageVersion)">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\MicroserviceDemo.Shared.Hosting.Microservices\MicroserviceDemo.Shared.Hosting.Microservices.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.IdentityService.Application\MicroserviceDemo.IdentityService.Application.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.IdentityService.EntityFrameworkCore\MicroserviceDemo.IdentityService.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.IdentityService.HttpApi\MicroserviceDemo.IdentityService.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+</Project>

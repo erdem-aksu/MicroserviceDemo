@@ -1,0 +1,50 @@
+﻿@typeparam TEntityType
+@using Volo.Abp.Data
+@using Volo.Abp.ObjectExtending
+@using Volo.Abp.Reflection
+@using MicroserviceDemo.Web.Helpers
+@inherits WebComponentBase
+
+@{
+    Entity.SetDefaultsForExtraProperties();
+
+    foreach (var propertyInfo in ObjectExtensionManager.Instance.GetProperties<TEntityType>())
+    {
+        if (!propertyInfo.Name.EndsWith("_Text"))
+        {
+            var type = TypeHelper.StripNullable(propertyInfo.Type);
+            var simplifiedType = TypeHelper.GetSimplifiedName(type);
+            var propertyPath = $"{nameof(Entity.ExtraProperties)}.{propertyInfo.Name}";
+
+            if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
+            {
+                <MudDatePicker T="DateTime?" Margin="Margin.Normal" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Date="@(Entity.ExtraProperties.GetPropertyAs<DateTime?>(propertyInfo.Name))" DateChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o))" Validation="@(Validator?.ValidateValue<TEntityType, DateTime?>(Entity, propertyPath))"/>
+            }
+            else if (type == typeof(TimeSpan))
+            {
+                <MudTimePicker T="TimeSpan?" Margin="Margin.Normal" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Time="@(Entity.ExtraProperties.GetPropertyAs<TimeSpan?>(propertyInfo.Name))" TimeChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o))" Validation="@(Validator?.ValidateValue<TEntityType, TimeSpan?>(Entity, propertyPath))"/>
+            }
+            else if (type == typeof(bool))
+            {
+                <MudCheckBox T="bool?" Margin="Margin.Normal" Class="d-flex" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Checked="@(Entity.ExtraProperties.GetPropertyAs<bool?>(propertyInfo.Name))" CheckedChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o))" Validation="@(Validator?.ValidateValue<TEntityType, bool?>(Entity, propertyPath))"/>
+            }
+            else if (type.IsEnum)
+            {
+                <MudSelect T="object" Margin="Margin.Normal" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Value="@(Entity.ExtraProperties.GetValueOrDefault(propertyInfo.Name))" ValueChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o, type))" Clearable="true" Validation="@(Validator?.ValidateValue<TEntityType, object>(Entity, propertyPath))">
+                    @foreach (var en in Enum.GetValues(type))
+                    {
+                        <MudSelectItem T="object" Value="@en">@L[$"Enum:{type.Name}.{en}"]</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+            else if (simplifiedType == "string")
+            {
+                <MudTextField T="string" Margin="Margin.Normal" Value="@(Entity.ExtraProperties.GetPropertyAs<string>(propertyInfo.Name))" ValueChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o))" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Validation="@(Validator?.ValidateValue<TEntityType, string>(Entity, propertyPath))"/>
+            }
+            else if (simplifiedType == "number")
+            {
+                <MudNumericField T="double?" Margin="Margin.Normal" Label="@propertyInfo.DisplayName.Localize(StringLocalizerFactory)" Value="@(Entity.ExtraProperties.GetPropertyAs<double?>(propertyInfo.Name))" ValueChanged="@(o => Entity.ExtraProperties.SetProperty(propertyInfo.Name, o))" Validation="@(Validator?.ValidateValue<TEntityType, double?>(Entity, propertyPath))"/>
+            }
+        }
+    }
+}
