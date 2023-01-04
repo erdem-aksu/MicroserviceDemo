@@ -32,11 +32,7 @@ public class MicroserviceDemoWebGatewayModule : AbpModule
                     {"AccountService", "Account Service API"},
                     {"IdentityService", "Identity Service API"},
                     {"AdministrationService", "Administration Service API"},
-                    {"CatalogService", "Catalog Service API"},
-                    {"BasketService", "Basket Service API"},
-                    {"PaymentService", "Payment Service API"},
-                    {"OrderingService", "Ordering Service API"},
-                    {"CmskitService", "Cmskit Service API"},
+                    {"ContactService", "Contact Service API"},
                 },
             apiTitle: "Web Gateway"
         );

@@ -1,0 +1,15 @@
+{
+  "culture": "tr",
+  "texts": {
+    "Permission:ContactService": "Contact Service",
+    "Permission:Contacts": "Kişiler",
+    "Permission:Create": "Oluşturma",
+    "Permission:Edit": "Düzenleme",
+    "Permission:Delete": "Silme",
+    "DisplayName:Name": "Ad",
+    "DisplayName:SurName": "Soyad",
+    "DisplayName:Company": "Şirket",
+    "DisplayName:ContactInfoType": "İletişim Bilgisi Tipi",
+    "DisplayName:ContactInfoValue": "İletişim Bilgisi"
+  }
+}

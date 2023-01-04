@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>MicroserviceDemo.ContactService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="$(MicrosoftEntityFrameworkCorePackageVersion)" />
+    <ProjectReference Include="..\..\src\MicroserviceDemo.ContactService.EntityFrameworkCore\MicroserviceDemo.ContactService.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.ContactService.TestBase\MicroserviceDemo.ContactService.TestBase.csproj" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="$(AbpPackageVersion)" />
+  </ItemGroup>
+
+</Project>

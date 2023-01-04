@@ -36,6 +36,12 @@
         "Match": {
           "Path": "/api/setting-management/{**everything}"
         }
+      },
+      "Contact Service": {
+        "ClusterId": "contactCluster",
+        "Match": {
+          "Path": "/api/contact/{**everything}"
+        }
       }
     },
     "Clusters": {
@@ -78,6 +84,13 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "contactCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44399"
           }
         }
       }

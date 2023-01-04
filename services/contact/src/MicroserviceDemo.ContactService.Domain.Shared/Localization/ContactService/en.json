@@ -1,0 +1,15 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:ContactService": "Contact Service",
+    "Permission:Contacts": "Contacts",
+    "Permission:Create": "Create",
+    "Permission:Edit": "Edit",
+    "Permission:Delete": "Delete",
+    "DisplayName:Name": "Name",
+    "DisplayName:SurName": "Surname",
+    "DisplayName:Company": "Company",
+    "DisplayName:ContactInfoType": "Contact Info Type",
+    "DisplayName:ContactInfoValue": "Contact Info"
+  }
+}

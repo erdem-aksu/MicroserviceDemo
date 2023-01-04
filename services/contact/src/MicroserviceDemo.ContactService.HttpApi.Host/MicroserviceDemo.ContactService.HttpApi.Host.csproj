@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>MicroserviceDemo.ContactService</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(MicrosoftEntityFrameworkCorePackageVersion)">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="$(AbpPackageVersion)" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="$(AbpPackageVersion)" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="$(AbpPackageVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\MicroserviceDemo.Shared.Hosting.Microservices\MicroserviceDemo.Shared.Hosting.Microservices.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.ContactService.EntityFrameworkCore\MicroserviceDemo.ContactService.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.ContactService.Application\MicroserviceDemo.ContactService.Application.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.ContactService.HttpApi\MicroserviceDemo.ContactService.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+</Project>

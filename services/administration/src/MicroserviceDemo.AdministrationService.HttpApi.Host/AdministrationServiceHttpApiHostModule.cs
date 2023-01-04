@@ -80,6 +80,10 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         {
             app.UseDeveloperExceptionPage();
         }
+        else
+        {
+            app.UseHsts();
+        }
 
         app.UseCorrelationId();
         app.UseCors();

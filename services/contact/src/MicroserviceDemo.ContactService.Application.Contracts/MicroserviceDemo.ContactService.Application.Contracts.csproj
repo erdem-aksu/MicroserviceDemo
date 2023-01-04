@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MicroserviceDemo.ContactService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpPackageVersion)" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpPackageVersion)" />
+    <ProjectReference Include="..\MicroserviceDemo.ContactService.Domain.Shared\MicroserviceDemo.ContactService.Domain.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

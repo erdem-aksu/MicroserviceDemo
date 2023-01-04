@@ -355,6 +355,7 @@ MigrationBackup/
 .idea/
 
 /.env
+appsettings.secrets.json
 
 !/etc/docker/**/bin
 /etc/traefik/acme.json
