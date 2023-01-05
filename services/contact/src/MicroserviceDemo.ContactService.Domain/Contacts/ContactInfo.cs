@@ -1,9 +1,10 @@
 ﻿using System;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace MicroserviceDemo.ContactService.Contacts;
 
-public class ContactInfo : BasicAggregateRoot<Guid>
+public class ContactInfo : FullAuditedAggregateRoot<Guid>
 {
     public Guid ContactId { get; set; }
 

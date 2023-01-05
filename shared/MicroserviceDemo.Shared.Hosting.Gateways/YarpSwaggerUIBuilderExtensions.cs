@@ -38,8 +38,7 @@ public static class YarpSwaggerUIBuilderExtensions
                 foreach (var clusterGroup in groupedClusters)
                 {
                     var routeConfig = yarpConfig.Routes.FirstOrDefault(
-                        q =>
-                            q.ClusterId == clusterGroup.ClusterId
+                        q => q.ClusterId == clusterGroup.ClusterId
                     );
                     if (routeConfig == null)
                     {

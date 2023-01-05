@@ -21,9 +21,6 @@ public class MicroserviceDemoSharedLocalizationModule : AbpModule
         Configure<AbpLocalizationOptions>(
             options =>
             {
-                options.Languages.Add(new LanguageInfo("en", "en", "English", "gb"));
-                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe", "tr"));
-
                 options.Resources
                     .Add<MicroserviceDemoResource>("en")
                     .AddBaseTypes(

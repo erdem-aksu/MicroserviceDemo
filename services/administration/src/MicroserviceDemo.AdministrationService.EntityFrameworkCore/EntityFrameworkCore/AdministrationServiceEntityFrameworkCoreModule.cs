@@ -37,7 +37,14 @@ namespace MicroserviceDemo.AdministrationService.EntityFrameworkCore
             // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            Configure<AbpDbContextOptions>(options => { options.Configure<AdministrationServiceDbContext>(c => { c.UseNpgsql(b => { b.MigrationsHistoryTable("__AdministrationService_Migrations"); }); }); });
+            Configure<AbpDbContextOptions>(
+                options =>
+                {
+                    options.Configure<AdministrationServiceDbContext>(
+                        c => { c.UseNpgsql(b => { b.MigrationsHistoryTable("__AdministrationService_Migrations"); }); }
+                    );
+                }
+            );
         }
     }
 }

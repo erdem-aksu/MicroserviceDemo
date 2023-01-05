@@ -42,6 +42,12 @@
         "Match": {
           "Path": "/api/contact/{**everything}"
         }
+      },
+      "Report Service": {
+        "ClusterId": "reportCluster",
+        "Match": {
+          "Path": "/api/report/{**everything}"
+        }
       }
     },
     "Clusters": {
@@ -91,6 +97,13 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44399"
+          }
+        }
+      },
+      "reportCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44307"
           }
         }
       }

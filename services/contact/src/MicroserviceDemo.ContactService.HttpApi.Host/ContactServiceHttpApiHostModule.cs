@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using MicroserviceDemo.ContactService.DbMigrations;
 using MicroserviceDemo.ContactService.EntityFrameworkCore;
 using MicroserviceDemo.Shared.Hosting.AspNetCore;
 using MicroserviceDemo.Shared.Hosting.Microservices;
@@ -105,5 +107,12 @@ public class ContactServiceHttpApiHostModule : AbpModule
         app.UseAuditing();
         app.UseUnitOfWork();
         app.UseConfiguredEndpoints();
+    }
+
+    public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        await context.ServiceProvider
+            .GetRequiredService<ContactServiceDatabaseMigrationChecker>()
+            .CheckAndApplyDatabaseMigrationsAsync();
     }
 }

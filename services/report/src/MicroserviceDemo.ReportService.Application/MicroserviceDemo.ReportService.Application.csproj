@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>MicroserviceDemo.ReportService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="$(AbpPackageVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpPackageVersion)" />
+    <ProjectReference Include="..\MicroserviceDemo.ReportService.Application.Contracts\MicroserviceDemo.ReportService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\MicroserviceDemo.ReportService.Domain\MicroserviceDemo.ReportService.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\administration\src\MicroserviceDemo.AdministrationService.HttpApi.Client\MicroserviceDemo.AdministrationService.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\contact\src\MicroserviceDemo.ContactService.HttpApi.Client\MicroserviceDemo.ContactService.HttpApi.Client.csproj" />
+  </ItemGroup>
+
+</Project>

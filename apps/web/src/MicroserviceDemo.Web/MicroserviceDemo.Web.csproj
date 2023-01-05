@@ -30,6 +30,8 @@
     <ProjectReference Include="..\..\..\..\shared\MicroserviceDemo.Shared.Localization\MicroserviceDemo.Shared.Localization.csproj" />
     <ProjectReference Include="..\..\..\..\services\administration\src\MicroserviceDemo.AdministrationService.HttpApi.Client\MicroserviceDemo.AdministrationService.HttpApi.Client.csproj" />
     <ProjectReference Include="..\..\..\..\services\identity\src\MicroserviceDemo.IdentityService.HttpApi.Client\MicroserviceDemo.IdentityService.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\..\services\contact\src\MicroserviceDemo.ContactService.HttpApi.Client\MicroserviceDemo.ContactService.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\..\..\services\report\src\MicroserviceDemo.ReportService.HttpApi.Client\MicroserviceDemo.ReportService.HttpApi.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>

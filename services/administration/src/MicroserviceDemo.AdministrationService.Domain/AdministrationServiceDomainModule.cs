@@ -1,4 +1,5 @@
 ﻿using Volo.Abp.AuditLogging;
+using Volo.Abp.BlobStoring.Database;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.Identity;
@@ -12,7 +13,8 @@ namespace MicroserviceDemo.AdministrationService
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpAuditLoggingDomainModule),
         typeof(AbpPermissionManagementDomainIdentityModule),
-        typeof(AbpPermissionManagementDomainIdentityServerModule)
+        typeof(AbpPermissionManagementDomainIdentityServerModule),
+        typeof(BlobStoringDatabaseDomainModule)
     )]
     public class AdministrationServiceDomainModule : AbpModule
     {

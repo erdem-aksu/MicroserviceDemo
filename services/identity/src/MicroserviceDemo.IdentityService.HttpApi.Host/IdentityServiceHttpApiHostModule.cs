@@ -64,9 +64,6 @@ public class IdentityServiceHttpApiHostModule : AbpModule
                 );
             }
         );
-
-        // Keycloak handles the user creation that a user name can be multiple words
-        Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = null; });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

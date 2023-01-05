@@ -11,6 +11,8 @@ public interface IContactAppService : IApplicationService
 
     Task<PagedResultDto<ContactListDto>> GetListAsync(GetContactsInput input);
 
+    Task<ContactReportDto> GetReportAsync(GetContactsReportInput input);
+
     Task<ContactDto> CreateAsync(ContactCreateDto input);
 
     Task<ContactDto> UpdateAsync(Guid id, ContactUpdateDto input);

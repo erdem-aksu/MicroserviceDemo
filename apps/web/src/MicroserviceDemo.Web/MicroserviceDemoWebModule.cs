@@ -30,7 +30,6 @@ using Volo.Abp.AspNetCore.Mvc.UI.Packages;
 using Volo.Abp.AspNetCore.Mvc.UI.Packages.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Packages.FontAwesome;
 using Volo.Abp.AspNetCore.Serilog;
-using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
@@ -244,7 +243,11 @@ public class MicroserviceDemoWebModule : AbpModule
     private void ConfigureLocalizationServices()
     {
         Configure<AbpLocalizationOptions>(
-            options => { }
+            options =>
+            {
+                options.Languages.Add(new LanguageInfo("en", "en", "English", "gb"));
+                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe", "tr"));
+            }
         );
     }
 

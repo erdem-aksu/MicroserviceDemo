@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
+using MicroserviceDemo.AdministrationService.Permissions;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
+using Volo.Abp.Identity;
 using Volo.Abp.IdentityServer.ApiResources;
 using Volo.Abp.IdentityServer.ApiScopes;
 using Volo.Abp.IdentityServer.Clients;
@@ -85,6 +87,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         await CreateApiResourceAsync("AccountService", commonApiUserClaims);
         await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
         await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
+        await CreateApiResourceAsync("ContactService", commonApiUserClaims);
+        await CreateApiResourceAsync("ReportService", commonApiUserClaims);
     }
 
     private async Task CreateApiScopesAsync()
@@ -92,6 +96,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         await CreateApiScopeAsync("AccountService");
         await CreateApiScopeAsync("IdentityService");
         await CreateApiScopeAsync("AdministrationService");
+        await CreateApiScopeAsync("ContactService");
+        await CreateApiScopeAsync("ReportService");
     }
 
     private async Task CreateSwaggerClientsAsync()
@@ -103,6 +109,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "AccountService",
                 "IdentityService",
                 "AdministrationService",
+                "ContactService",
+                "ReportService"
             }
         );
     }
@@ -128,6 +136,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             var accountServiceRootUrl = _configuration["IdentityServerClients:AccountService:RootUrl"].TrimEnd('/');
             var identityServiceRootUrl = _configuration["IdentityServerClients:IdentityService:RootUrl"].TrimEnd('/');
             var administrationServiceRootUrl = _configuration["IdentityServerClients:AdministrationService:RootUrl"].TrimEnd('/');
+            var contactServiceRootUrl = _configuration["IdentityServerClients:ContactService:RootUrl"].TrimEnd('/');
+            var reportServiceRootUrl = _configuration["IdentityServerClients:ReportService:RootUrl"].TrimEnd('/');
 
             await CreateClientAsync(
                 name: swaggerClientId,
@@ -141,6 +151,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                     $"{accountServiceRootUrl}/swagger/oauth2-redirect.html", // AccountService redirect uri
                     $"{identityServiceRootUrl}/swagger/oauth2-redirect.html", // IdentityService redirect uri
                     $"{administrationServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
+                    $"{contactServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
+                    $"{reportServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
                 },
                 corsOrigins: new[]
                 {
@@ -148,6 +160,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                     accountServiceRootUrl.RemovePostFix("/"),
                     identityServiceRootUrl.RemovePostFix("/"),
                     administrationServiceRootUrl.RemovePostFix("/"),
+                    contactServiceRootUrl.RemovePostFix("/"),
+                    reportServiceRootUrl.RemovePostFix("/"),
                 }
             );
         }
@@ -217,7 +231,10 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 new[]
                 {
                     "AdministrationService",
-                    "IdentityService"
+                    "IdentityService",
+                    "AccountService",
+                    "ContactService",
+                    "ReportService"
                 }
             ),
             grantTypes: new[] { "hybrid" },
@@ -229,7 +246,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         );
 
         //Administration Service Client
-        /*await CreateClientAsync(
+        await CreateClientAsync(
             name: "MicroserviceDemo_AdministrationService",
             scopes: commonScopes.Union(
                 new[]
@@ -238,9 +255,28 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 }
             ),
             grantTypes: new[] { "client_credentials" },
-            secret: "1q2w3e*".Sha256(),
+            secret: "4N+Qw->5a**A3!Nhb".Sha256(),
             permissions: new[] { IdentityPermissions.Users.Default }
-        );*/
+        );
+
+        //Report Service Client
+        await CreateClientAsync(
+            name: "MicroserviceDemo_ReportService",
+            scopes: commonScopes.Union(
+                new[]
+                {
+                    "AdministrationService",
+                    "ContactService"
+                }
+            ),
+            grantTypes: new[] { "client_credentials" },
+            secret: "4N+Qw->5a**A3!Nhb".Sha256(),
+            permissions: new[]
+            {
+                AdministrationServicePermissions.Identity.Users.Default,
+                "ContactService.Contacts"
+            }
+        );
     }
 
     private async Task<Client> CreateClientAsync(

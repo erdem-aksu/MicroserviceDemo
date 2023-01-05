@@ -53,6 +53,27 @@ public class ContactAppService : ContactServiceAppService, IContactAppService
         return new PagedResultDto<ContactListDto>(count, list);
     }
 
+    public async Task<ContactReportDto> GetReportAsync(GetContactsReportInput input)
+    {
+        var contacts = await AsyncExecuter.ToListAsync(
+            (await ContactManager.WithDetailsAsync(c => c.Info))
+            .Where(c => c.Info.Any(i => i.Type == ContactInfoType.Location && i.Value.Contains(input.Location)))
+            .Select(
+                c => new
+                {
+                    PhoneCount = c.Info.Count(i => i.Type == ContactInfoType.Phone),
+                }
+            )
+        );
+
+        return new ContactReportDto
+        {
+            Location = input.Location,
+            ContactCount = contacts.Count,
+            ContactPhoneCount = contacts.Sum(c => c.PhoneCount)
+        };
+    }
+
     [Authorize(ContactServicePermissions.Contacts.Create)]
     public async Task<ContactDto> CreateAsync(ContactCreateDto input)
     {

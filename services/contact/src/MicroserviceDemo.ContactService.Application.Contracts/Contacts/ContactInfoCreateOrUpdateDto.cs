@@ -1,6 +1,6 @@
 ﻿namespace MicroserviceDemo.ContactService.Contacts;
 
-public abstract class ContactInfoCreateOrUpdateDto
+public class ContactInfoCreateOrUpdateDto
 {
     public ContactInfoType Type { get; set; }
 

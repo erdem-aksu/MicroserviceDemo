@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
 
 namespace MicroserviceDemo.ContactService.EntityFrameworkCore;
 
 [DependsOn(
     typeof(ContactServiceDomainModule),
-    typeof(AbpEntityFrameworkCoreModule)
+    typeof(AbpEntityFrameworkCorePostgreSqlModule)
 )]
 public class ContactServiceEntityFrameworkCoreModule : AbpModule
 {

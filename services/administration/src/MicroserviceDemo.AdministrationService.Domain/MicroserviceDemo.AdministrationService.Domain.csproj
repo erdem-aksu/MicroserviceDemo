@@ -17,6 +17,7 @@
     <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="$(AbpPackageVersion)" />
     <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="$(AbpPackageVersion)" />
     <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="$(AbpPackageVersion)" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.Domain" Version="$(AbpPackageVersion)" />
   </ItemGroup>
 
 </Project>

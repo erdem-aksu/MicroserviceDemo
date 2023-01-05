@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceDemo.Web", "app
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceDemo.ContactService.HttpApi.Host", "services\contact\src\MicroserviceDemo.ContactService.HttpApi.Host\MicroserviceDemo.ContactService.HttpApi.Host.csproj", "{3CE490A6-3050-4B15-90A6-67555ED5B957}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceDemo.ReportService.HttpApi.Host", "services\report\src\MicroserviceDemo.ReportService.HttpApi.Host\MicroserviceDemo.ReportService.HttpApi.Host.csproj", "{6215C010-244A-4DCB-A2B5-3F76F3BCF433}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{3CE490A6-3050-4B15-90A6-67555ED5B957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CE490A6-3050-4B15-90A6-67555ED5B957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CE490A6-3050-4B15-90A6-67555ED5B957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6215C010-244A-4DCB-A2B5-3F76F3BCF433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6215C010-244A-4DCB-A2B5-3F76F3BCF433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6215C010-244A-4DCB-A2B5-3F76F3BCF433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6215C010-244A-4DCB-A2B5-3F76F3BCF433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{5D653BE4-7653-4684-B9F0-9A9B955093E5} = {1484E912-DCF3-4568-A72C-4C7622104DB8}
 		{1947694C-41F0-485F-B935-E1BB925E2894} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
 		{3CE490A6-3050-4B15-90A6-67555ED5B957} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{6215C010-244A-4DCB-A2B5-3F76F3BCF433} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26F82565-C6A4-439D-93A4-3251E3E7D5B0}
