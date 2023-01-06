@@ -34,23 +34,23 @@ spec:
             - name: App__CorsOrigins
               value: https://*.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address
-              value: http://auth-server
+              value: https://account.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address
-              value: http://identity-service
+              value: https://identity-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address
-              value: http://administration-service
+              value: https://administration-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address
-              value: http://administration-service
+              value: https://administration-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address
-              value: http://administration-service
+              value: https://administration-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address
-              value: http://administration-service
+              value: https://administration-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__file-management-cluster__Destinations__destination1__Address
-              value: http://administration-service
+              value: https://administration-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__contactCluster__Destinations__destination1__Address
-              value: http://contact-service
+              value: https://contact-service.${DEMO_DOMAIN}
             - name: ReverseProxy__Clusters__reportCluster__Destinations__destination1__Address
-              value: http://report-service
+              value: https://report-service.${DEMO_DOMAIN}
             - name: KnownProxies__0
               value: 10.43.0.0/16
           ports:

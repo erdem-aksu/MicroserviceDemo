@@ -29,6 +29,8 @@ spec:
               value: rabbitmq
             - name: ElasticSearch__Url
               value: http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+            - name: AuthServer__Authority
+              value: https://account.${DEMO_DOMAIN}
             - name: App__SelfUrl
               value: https://account.${DEMO_DOMAIN}
             - name: App__CorsOrigins
