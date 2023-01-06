@@ -1,0 +1,92 @@
+version: '3.7'
+
+services:
+
+  auth-server:
+    image: '${DOCKER_IMAGE_PREFIX}/auth-server:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/auth-server:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.AuthServer
+    environment:
+      - DOTNET_APP=MicroserviceDemo.AuthServer
+
+  web:
+    image: '${DOCKER_IMAGE_PREFIX}/web:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/web:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.Web
+        - signalr=true
+    environment:
+      - DOTNET_APP=MicroserviceDemo.Web
+  
+  web-gateway:
+    image: '${DOCKER_IMAGE_PREFIX}/web-gateway:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/web-gateway:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.WebGateway
+    environment:
+      - DOTNET_APP=MicroserviceDemo.WebGateway
+
+  administration-service:
+    image: '${DOCKER_IMAGE_PREFIX}/administration-service:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/administration-service:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.AdministrationService
+    environment:
+      - DOTNET_APP=MicroserviceDemo.AdministrationService.HttpApi.Host
+
+  identity-service:
+    image: '${DOCKER_IMAGE_PREFIX}/identity-service:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/identity-service:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.IdentityService
+    environment:
+      - DOTNET_APP=MicroserviceDemo.IdentityService.HttpApi.Host
+
+  contact-service:
+    image: '${DOCKER_IMAGE_PREFIX}/contact-service:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/contact-service:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.ContactService
+    environment:
+      - DOTNET_APP=MicroserviceDemo.ContactService.HttpApi.Host
+
+  report-service:
+    image: '${DOCKER_IMAGE_PREFIX}/report-service:${DOCKER_IMAGE_TAG:-latest}'
+    build:
+      context: ../../
+      cache_from:
+        - '${DOCKER_IMAGE_PREFIX}/report-service:${DOCKER_IMAGE_TAG:-latest}'
+      dockerfile: docker/aspnet/Dockerfile
+      args:
+        - project=MicroserviceDemo.ReportService
+    environment:
+      - DOTNET_APP=MicroserviceDemo.ReportService.HttpApi.Host
+
+volumes:
+  dbdata:
+  esdata:

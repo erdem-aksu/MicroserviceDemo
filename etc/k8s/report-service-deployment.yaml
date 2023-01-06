@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: report-service
+spec:
+  selector:
+    matchLabels:
+      app: report-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: report-service
+    spec:
+      containers:
+        - name: report-service
+          image: ${DOCKER_IMAGE_PREFIX}/report-service:${DOCKER_IMAGE_TAG}
+          imagePullPolicy: "Always"
+          env:
+            - name: DOTNET_APP
+              value: MicroserviceDemo.ReportService.HttpApi.Host
+            - name: ConnectionStrings__AdministrationService
+              value: Server=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: ConnectionStrings__ReportServiceService
+              value: Server=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: Redis__Configuration
+              value: redis
+            - name: RabbitMQ__Connections__Default__HostName
+              value: rabbitmq
+            - name: RabbitMQ__Connections__Default__UserName
+              value: ""
+            - name: RabbitMQ__Connections__Default__Password
+              value: ""
+            - name: ElasticSearch__Url
+              value: http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+            - name: AuthServer__Authority
+              value: https://account.${DEMO_DOMAIN}
+            - name: IdentityClients__Default__Authority
+              value: https://account.${DEMO_DOMAIN}
+            - name: App__SelfUrl
+              value: https://report-service.${DEMO_DOMAIN}
+            - name: App__CorsOrigins
+              value: https://*.${DEMO_DOMAIN}
+            - name: RemoteServices__AdministrationService__BaseUrl
+              value: http://administration-service
+            - name: RemoteServices__ContactService__BaseUrl
+              value: http://contact-service
+            - name: KnownProxies__0
+              value: 10.43.0.0/16
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: "${DOCKER_IMAGE_SECRETNAME}"

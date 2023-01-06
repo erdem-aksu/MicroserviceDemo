@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: identity-service
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: https
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: identity-service.${DEMO_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: identity-service
+                port:
+                  number: 80
+  tls:
+    - secretName: identity-service-tls
+      hosts:
+        - identity-service.${DEMO_DOMAIN}
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: identity-service-redirect
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-traefik-redirectscheme@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: http
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: identity-service.${DEMO_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: identity-service
+                port:
+                  number: 80

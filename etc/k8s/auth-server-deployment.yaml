@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+spec:
+  selector:
+    matchLabels:
+      app: auth-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: auth-server
+    spec:
+      containers:
+        - name: auth-server
+          image: ${DOCKER_IMAGE_PREFIX}/auth-server:${DOCKER_IMAGE_TAG}
+          imagePullPolicy: "Always"
+          env:
+            - name: DOTNET_APP
+              value: MicroserviceDemo.AuthServer
+            - name: ConnectionStrings__IdentityService
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Identity;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: ConnectionStrings__AdministrationService
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: Redis__Configuration
+              value: redis
+            - name: RabbitMQ__Connections__Default__HostName
+              value: rabbitmq
+            - name: RabbitMQ__Connections__Default__UserName
+              value: ""
+            - name: RabbitMQ__Connections__Default__Password
+              value: ""
+            - name: ElasticSearch__Url
+              value: http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+            - name: App__SelfUrl
+              value: https://account.${DEMO_DOMAIN}
+            - name: App__CorsOrigins
+              value: https://*.${DEMO_DOMAIN}
+            - name: App__RedirectAllowedUrls
+              value: https://${DEMO_DOMAIN}
+            - name: KnownProxies__0
+              value: 10.43.0.0/16
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: "${DOCKER_IMAGE_SECRETNAME}"

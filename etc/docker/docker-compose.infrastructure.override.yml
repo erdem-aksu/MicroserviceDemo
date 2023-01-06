@@ -1,0 +1,89 @@
+version: '3.7'
+
+services:
+  reverse-proxy:
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik/acme.json:/acme.json
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`monitor.${DEMO_DOMAIN}`)
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.entrypoints=web
+      - traefik.http.routers.traefik.middlewares=authtraefik
+      - traefik.http.middlewares.authtraefik.basicauth.users=admin:$$2y$$10$$ZV6zLd/yO57Bz.k614JnxOEPsUfo4V6xV6.T7OoZ4jtZqnVFBoc7u
+
+  postgresql:
+    environment:
+      POSTGRES_PASSWORD: ${DEMO_SQL_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  rabbitmq:
+    ports:
+      - "127.0.0.1:15672:15672"
+      - "127.0.0.1:5672:5672"
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.rabbitmq-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.rabbitmq-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.rabbitmq-insecure.rule=Host(`rabbitmq.${DEMO_DOMAIN}`)
+      - traefik.http.routers.rabbitmq-insecure.entrypoints=web
+      - traefik.http.routers.rabbitmq-insecure.middlewares=rabbitmq-redirectscheme@docker
+      - traefik.http.routers.rabbitmq.rule=Host(`rabbitmq.${DEMO_DOMAIN}`)
+      - traefik.http.routers.rabbitmq.entrypoints=web-secure
+      - traefik.http.routers.rabbitmq.tls=true
+      - traefik.http.routers.rabbitmq.tls.certresolver=le
+      - traefik.http.routers.rabbitmq.service=rabbitmq
+      - traefik.http.services.rabbitmq.loadbalancer.server.port=15672
+
+  redis:
+    ports:
+      - "127.0.0.1:6379:6379"
+
+  elasticsearch:
+    volumes:
+      - ./etc/elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTIC_PASSWORD=${DEMO_ELASTICSEARCH_PASSWORD}
+    ports:
+      - "9200:9200"
+
+  logstash:
+    volumes:
+      - ./etc/elk/logstash/pipeline:/usr/share/logstash/pipeline
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+      - xpack.monitoring.elasticsearch.username=elastic
+      - xpack.monitoring.elasticsearch.password=${DEMO_ELASTICSEARCH_PASSWORD}
+      - path.config=/usr/share/logstash/pipeline
+    ports:
+      - "127.0.0.1:9600:9600"
+      - "127.0.0.1:5000:5000"
+
+  kibana:
+    volumes:
+      - ./etc/elk/kibana/config/:/usr/share/kibana/config
+    environment:
+      - SERVER_PUBLICBASEURL=https://kibana.${DEMO_DOMAIN}
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=${DEMO_ELASTICSEARCH_PASSWORD}
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.kibana-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.kibana-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.kibana-insecure.rule=Host(`kibana.${DEMO_DOMAIN}`)
+      - traefik.http.routers.kibana-insecure.entrypoints=web
+      - traefik.http.routers.kibana-insecure.middlewares=kibana-redirectscheme@docker
+      - traefik.http.routers.kibana.rule=Host(`kibana.${DEMO_DOMAIN}`)
+      - traefik.http.routers.kibana.entrypoints=web-secure
+      - traefik.http.routers.kibana.tls=true
+      - traefik.http.routers.kibana.tls.certresolver=le
+      - traefik.http.routers.kibana.service=kibana
+      - traefik.http.services.kibana.loadbalancer.server.port=5601

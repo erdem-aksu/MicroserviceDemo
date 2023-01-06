@@ -35,7 +35,7 @@ jobs:
           path: publish
           key: ${{ runner.os }}-publish-${{ github.run_id }}
       - name: Build and publish dotnet
-        run: cd nupkg && bash publish.sh
+        run: cd build && bash publish.sh
   
   publish-docker-image:
     needs: [ publish-dotnet ]

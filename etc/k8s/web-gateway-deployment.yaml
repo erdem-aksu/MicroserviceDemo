@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-gateway
+spec:
+  selector:
+    matchLabels:
+      app: web-gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: web-gateway
+    spec:
+      containers:
+        - name: web-gateway
+          image: ${DOCKER_IMAGE_PREFIX}/web-gateway:${DOCKER_IMAGE_TAG}
+          imagePullPolicy: "Always"
+          env:
+            - name: DOTNET_APP
+              value: MicroserviceDemo.WebGateway
+            - name: ConnectionStrings__IdentityService
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Identity;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: ConnectionStrings__AdministrationService
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+            - name: Redis__Configuration
+              value: redis
+            - name: ElasticSearch__Url
+              value: http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+            - name: AuthServer__Authority
+              value: https://account.${DEMO_DOMAIN}
+            - name: App__SelfUrl
+              value: https://web-gateway.${DEMO_DOMAIN}
+            - name: App__CorsOrigins
+              value: https://*.${DEMO_DOMAIN}
+            - name: Clusters__accountCluster__Destinations__destination1__Address
+              value: http://auth-server
+            - name: Clusters__identityCluster__Destinations__destination1__Address
+              value: http://identity-service
+            - name: Clusters__administrationCluster__Destinations__destination1__Address
+              value: http://administration-service
+            - name: Clusters__feature-management-cluster__Destinations__destination1__Address
+              value: http://administration-service
+            - name: Clusters__permission-management-cluster__Destinations__destination1__Address
+              value: http://administration-service
+            - name: Clusters__setting-management-cluster__Destinations__destination1__Address
+              value: http://administration-service
+            - name: Clusters__file-management-cluster__Destinations__destination1__Address
+              value: http://administration-service
+            - name: Clusters__contactCluster__Destinations__destination1__Address
+              value: http://contact-service
+            - name: Clusters__reportCluster__Destinations__destination1__Address
+              value: http://report-service
+            - name: KnownProxies__0
+              value: 10.43.0.0/16
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: "${DOCKER_IMAGE_SECRETNAME}"

@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: https
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: kibana.${DEMO_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-kb-http
+                port:
+                  number: 5601
+  tls:
+    - secretName: kibana-tls
+      hosts:
+        - kibana.${DEMO_DOMAIN}
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: kibana-redirect
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-traefik-redirectscheme@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: http
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: kibana.${DEMO_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-kb-http
+                port:
+                  number: 5601

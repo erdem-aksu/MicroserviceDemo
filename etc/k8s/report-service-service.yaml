@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: report-service
+spec:
+  selector:
+    app: report-service
+  ports:
+    - name: http
+      port: 80

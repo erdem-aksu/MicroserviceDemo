@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: administration-service
+spec:
+  selector:
+    app: administration-service
+  ports:
+    - name: http
+      port: 80

@@ -1,0 +1,220 @@
+version: '3.7'
+
+services:
+
+  auth-server:
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - ConnectionStrings__IdentityService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Identity;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - App__SelfUrl=https://account.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+      - App__RedirectAllowedUrls=https://${DEMO_DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.auth-server-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.auth-server-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.auth-server-insecure.rule=Host(`account.${DEMO_DOMAIN}`)
+      - traefik.http.routers.auth-server-insecure.entrypoints=web
+      - traefik.http.routers.auth-server-insecure.middlewares=auth-server-redirectscheme@docker
+      - traefik.http.routers.auth-server.rule=Host(`account.${DEMO_DOMAIN}`)
+      - traefik.http.routers.auth-server.entrypoints=web-secure
+      - traefik.http.routers.auth-server.tls=true
+      - traefik.http.routers.auth-server.tls.certresolver=le
+
+  web:
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://${DEMO_DOMAIN}
+      - RemoteServices__Default__BaseUrl=http://web-gateway
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.web-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.web-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.web-insecure.rule=Host(`${DEMO_DOMAIN}`)
+      - traefik.http.routers.web-insecure.entrypoints=web
+      - traefik.http.routers.web-insecure.middlewares=web-redirectscheme@docker
+      - traefik.http.routers.web.rule=Host(`${DEMO_DOMAIN}`)
+      - traefik.http.routers.web.entrypoints=web-secure
+      - traefik.http.routers.web.tls=true
+      - traefik.http.routers.web.tls.certresolver=le
+
+  web-gateway:
+    depends_on:
+      - redis
+      - elasticsearch
+    environment:
+      - ConnectionStrings__IdentityService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Identity;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://web-gateway.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+      - Clusters__accountCluster__Destinations__destination1__Address=http://auth-server
+      - Clusters__identityCluster__Destinations__destination1__Address=http://identity-service
+      - Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
+      - Clusters__feature-management-cluster__Destinations__destination1__Address=http://administration-service
+      - Clusters__permission-management-cluster__Destinations__destination1__Address=http://administration-service
+      - Clusters__setting-management-cluster__Destinations__destination1__Address=http://administration-service
+      - Clusters__file-management-cluster__Destinations__destination1__Address=http://administration-service
+      - Clusters__contactCluster__Destinations__destination1__Address=http://contact-service
+      - Clusters__reportCluster__Destinations__destination1__Address=http://report-service
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.web-gateway-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.web-gateway-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.web-gateway-insecure.rule=Host(`web-gateway.${DEMO_DOMAIN}`)
+      - traefik.http.routers.web-gateway-insecure.entrypoints=web
+      - traefik.http.routers.web-gateway-insecure.middlewares=web-gateway-redirectscheme@docker
+      - traefik.http.routers.web-gateway.rule=Host(`web-gateway.${DEMO_DOMAIN}`)
+      - traefik.http.routers.web-gateway.entrypoints=web-secure
+      - traefik.http.routers.web-gateway.tls=true
+      - traefik.http.routers.web-gateway.tls.certresolver=le
+
+  administration-service:
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://administration-service.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+      - RemoteServices__AbpIdentity__BaseUrl=http://identity-service
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.administration-service-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.administration-service-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.administration-service-insecure.rule=Host(`administration-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.administration-service-insecure.entrypoints=web
+      - traefik.http.routers.administration-service-insecure.middlewares=administration-service-redirectscheme@docker
+      - traefik.http.routers.administration-service.rule=Host(`administration-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.administration-service.entrypoints=web-secure
+      - traefik.http.routers.administration-service.tls=true
+      - traefik.http.routers.administration-service.tls.certresolver=le
+  
+  identity-service:
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - ConnectionStrings__IdentityService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Identity;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://identity-service.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+      - RemoteServices__AbpIdentity__BaseUrl=http://identity-service
+      - IdentityServerClients__Web__RootUrl=https://${DEMO_DOMAIN}
+      - IdentityServerClients__WebGateway__RootUrl=https://web-gateway.${DEMO_DOMAIN}
+      - IdentityServerClients__AccountService__RootUrl=https://account.${DEMO_DOMAIN}
+      - IdentityServerClients__IdentityService__RootUrl=https://identity-service.${DEMO_DOMAIN}
+      - IdentityServerClients__AdministrationService__RootUrl=https://administration-service.${DEMO_DOMAIN}
+      - IdentityServerClients__ContactService__RootUrl=https://contact-service.${DEMO_DOMAIN}
+      - IdentityServerClients__ReportService__RootUrl=https://report-service.${DEMO_DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.identity-service-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.identity-service-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.identity-service-insecure.rule=Host(`identity-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.identity-service-insecure.entrypoints=web
+      - traefik.http.routers.identity-service-insecure.middlewares=identity-service-redirectscheme@docker
+      - traefik.http.routers.identity-service.rule=Host(`identity-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.identity-service.entrypoints=web-secure
+      - traefik.http.routers.identity-service.tls=true
+      - traefik.http.routers.identity-service.tls.certresolver=le
+
+  contact-service:
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__ContactServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Contact;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://contact-service.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.contact-service-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.contact-service-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.contact-service-insecure.rule=Host(`contact-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.contact-service-insecure.entrypoints=web
+      - traefik.http.routers.contact-service-insecure.middlewares=contact-service-redirectscheme@docker
+      - traefik.http.routers.contact-service.rule=Host(`contact-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.contact-service.entrypoints=web-secure
+      - traefik.http.routers.contact-service.tls=true
+      - traefik.http.routers.contact-service.tls.certresolver=le
+
+  report-service:
+    depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__ReportServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RabbitMQ__Connections__Default__UserName=
+      - RabbitMQ__Connections__Default__Password=
+      - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
+      - AuthServer__Authority=https://account.${DEMO_DOMAIN}
+      - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
+      - App__SelfUrl=https://report-service.${DEMO_DOMAIN}
+      - App__CorsOrigins=https://*.${DEMO_DOMAIN}
+      - RemoteServices__AdministrationService__BaseUrl=http://administration-service
+      - RemoteServices__ContactService__BaseUrl=http://contact-service
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.report-service-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.report-service-redirectscheme.redirectscheme.permanent=true
+      - traefik.http.routers.report-service-insecure.rule=Host(`report-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.report-service-insecure.entrypoints=web
+      - traefik.http.routers.report-service-insecure.middlewares=report-service-redirectscheme@docker
+      - traefik.http.routers.report-service.rule=Host(`report-service.${DEMO_DOMAIN}`)
+      - traefik.http.routers.report-service.entrypoints=web-secure
+      - traefik.http.routers.report-service.tls=true
+      - traefik.http.routers.report-service.tls.certresolver=le
