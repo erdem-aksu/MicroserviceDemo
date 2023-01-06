@@ -157,7 +157,7 @@ services:
       - elasticsearch
     environment:
       - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
-      - ConnectionStrings__ContactServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Contact;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__ContactService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Contact;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
@@ -185,7 +185,7 @@ services:
       - elasticsearch
     environment:
       - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
-      - ConnectionStrings__ReportServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+      - ConnectionStrings__ReportService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200

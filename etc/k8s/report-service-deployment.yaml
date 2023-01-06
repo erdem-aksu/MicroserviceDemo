@@ -21,7 +21,7 @@ spec:
               value: MicroserviceDemo.ReportService.HttpApi.Host
             - name: ConnectionStrings__AdministrationService
               value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
-            - name: ConnectionStrings__ReportServiceService
+            - name: ConnectionStrings__ReportService
               value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
             - name: Redis__Configuration
               value: redis
