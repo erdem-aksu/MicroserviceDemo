@@ -27,10 +27,6 @@ spec:
               value: redis
             - name: RabbitMQ__Connections__Default__HostName
               value: rabbitmq
-            - name: RabbitMQ__Connections__Default__UserName
-              value: ""
-            - name: RabbitMQ__Connections__Default__Password
-              value: ""
             - name: ElasticSearch__Url
               value: http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
             - name: App__SelfUrl

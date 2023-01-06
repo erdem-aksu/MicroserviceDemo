@@ -13,8 +13,6 @@ services:
       - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - App__SelfUrl=https://account.${DEMO_DOMAIN}
       - App__CorsOrigins=https://*.${DEMO_DOMAIN}
@@ -38,8 +36,6 @@ services:
     environment:
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - App__SelfUrl=https://${DEMO_DOMAIN}
@@ -99,8 +95,6 @@ services:
       - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
@@ -130,8 +124,6 @@ services:
       - ConnectionStrings__AdministrationService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
@@ -168,8 +160,6 @@ services:
       - ConnectionStrings__ContactServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Contact;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
@@ -198,8 +188,6 @@ services:
       - ConnectionStrings__ReportServiceService=Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__UserName=
-      - RabbitMQ__Connections__Default__Password=
       - ElasticSearch__Url=http://elastic:${DEMO_ELASTICSEARCH_PASSWORD}@elasticsearch:9200
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - IdentityClients__Default__Authority=https://account.${DEMO_DOMAIN}
