@@ -1,10 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using ClosedXML.Graphics;
 using MicroserviceDemo.AdministrationService.Blob;
 using MicroserviceDemo.ContactService.Contacts;
 using Microsoft.Extensions.Logging;
+using SixLabors.Fonts;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
@@ -56,6 +60,8 @@ public class ReportRequestedEventHandler : IDistributedEventHandler<ReportReques
                 }
             );
 
+            UpdateGraphicsEngineFonts();
+
             using var memoryStream = new MemoryStream();
             using var workbook = new XLWorkbook();
 
@@ -95,5 +101,20 @@ public class ReportRequestedEventHandler : IDistributedEventHandler<ReportReques
 
             await _reportManager.UpdateAsync(report);
         }
+    }
+
+    private static void UpdateGraphicsEngineFonts()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        const string preferredFont = "DejaVu Sans";
+        var fonts = SystemFonts.Collection.Families.Select(f => f.Name).ToList();
+
+        var fontName = fonts.Contains(preferredFont) ? preferredFont : fonts.First();
+
+        LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine(fontName);
     }
 }
