@@ -7,10 +7,13 @@ BASE_SOLUTION_PATH="${BASE_PATH}/MicroserviceDemo.sln"
 NUGET_FILE="${BASE_PATH}/NuGet.Config"
 PUBLISH_PATH="${BASE_PATH}/publish"
 SOLUTION_PATHS=(
-  "apps/auth-server"
-  "gateways/web"
   "services/administration"
   "services/identity"
+  "services/contact"
+  "services/report"
+  "gateways/web"
+  "apps/auth-server"
+  "apps/web"
   "."
 )
 EXCLUDED_PROJECT_PATHS=(
