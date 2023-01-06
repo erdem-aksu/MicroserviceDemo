@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-focal AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-jammy AS runtime
 
 ARG project
 
@@ -28,7 +28,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-COPY docker/console/entrypoint.sh/ /opt/docker/
+COPY etc/docker/console/entrypoint.sh/ /opt/docker/
 RUN chmod +x /opt/docker/entrypoint.sh
 
 WORKDIR /app

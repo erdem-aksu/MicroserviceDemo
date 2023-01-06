@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-focal AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-jammy AS runtime
 
 ARG project
 ARG signalr
@@ -40,7 +40,7 @@ RUN a2enmod headers
 RUN if [ "$signalr" ]; then a2enmod proxy_wstunnel ; fi
 
 # Copy configs
-COPY docker/aspnet/conf/ /opt/docker/
+COPY etc/docker//aspnet/conf/ /opt/docker/
 
 RUN chmod -R 775 /opt/docker
 RUN ln -sf /opt/docker/etc/supervisord/apache2.conf /etc/supervisor/conf.d/apache2.conf

@@ -8,7 +8,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/auth-server:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.AuthServer
     environment:
@@ -20,7 +20,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/web:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.Web
         - signalr=true
@@ -33,7 +33,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/web-gateway:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.WebGateway
     environment:
@@ -45,7 +45,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/administration-service:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.AdministrationService
     environment:
@@ -57,7 +57,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/identity-service:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.IdentityService
     environment:
@@ -69,7 +69,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/contact-service:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.ContactService
     environment:
@@ -81,7 +81,7 @@ services:
       context: ../../
       cache_from:
         - '${DOCKER_IMAGE_PREFIX}/report-service:${DOCKER_IMAGE_TAG:-latest}'
-      dockerfile: docker/aspnet/Dockerfile
+      dockerfile: etc/docker/aspnet/Dockerfile
       args:
         - project=MicroserviceDemo.ReportService
     environment:
