@@ -64,15 +64,15 @@ services:
       - AuthServer__Authority=https://account.${DEMO_DOMAIN}
       - App__SelfUrl=https://web-gateway.${DEMO_DOMAIN}
       - App__CorsOrigins=https://*.${DEMO_DOMAIN}
-      - Clusters__accountCluster__Destinations__destination1__Address=http://auth-server
-      - Clusters__identityCluster__Destinations__destination1__Address=http://identity-service
-      - Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
-      - Clusters__feature-management-cluster__Destinations__destination1__Address=http://administration-service
-      - Clusters__permission-management-cluster__Destinations__destination1__Address=http://administration-service
-      - Clusters__setting-management-cluster__Destinations__destination1__Address=http://administration-service
-      - Clusters__file-management-cluster__Destinations__destination1__Address=http://administration-service
-      - Clusters__contactCluster__Destinations__destination1__Address=http://contact-service
-      - Clusters__reportCluster__Destinations__destination1__Address=http://report-service
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://auth-server
+      - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://identity-service
+      - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__file-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__contactCluster__Destinations__destination1__Address=http://contact-service
+      - ReverseProxy__Clusters__reportCluster__Destinations__destination1__Address=http://report-service
     labels:
       - traefik.enable=true
       - traefik.http.middlewares.web-gateway-redirectscheme.redirectscheme.scheme=https

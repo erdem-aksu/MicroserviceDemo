@@ -33,23 +33,23 @@ spec:
               value: https://web-gateway.${DEMO_DOMAIN}
             - name: App__CorsOrigins
               value: https://*.${DEMO_DOMAIN}
-            - name: Clusters__accountCluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address
               value: http://auth-server
-            - name: Clusters__identityCluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address
               value: http://identity-service
-            - name: Clusters__administrationCluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address
               value: http://administration-service
-            - name: Clusters__feature-management-cluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address
               value: http://administration-service
-            - name: Clusters__permission-management-cluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address
               value: http://administration-service
-            - name: Clusters__setting-management-cluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address
               value: http://administration-service
-            - name: Clusters__file-management-cluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__file-management-cluster__Destinations__destination1__Address
               value: http://administration-service
-            - name: Clusters__contactCluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__contactCluster__Destinations__destination1__Address
               value: http://contact-service
-            - name: Clusters__reportCluster__Destinations__destination1__Address
+            - name: ReverseProxy__Clusters__reportCluster__Destinations__destination1__Address
               value: http://report-service
             - name: KnownProxies__0
               value: 10.43.0.0/16

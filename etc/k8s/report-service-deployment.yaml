@@ -20,9 +20,9 @@ spec:
             - name: DOTNET_APP
               value: MicroserviceDemo.ReportService.HttpApi.Host
             - name: ConnectionStrings__AdministrationService
-              value: Server=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Administration;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
             - name: ConnectionStrings__ReportServiceService
-              value: Server=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
+              value: Host=postgresql;Port=5432;Database=MicroserviceDemo_Report;User ID=postgres;Password=${DEMO_SQL_PASSWORD}
             - name: Redis__Configuration
               value: redis
             - name: RabbitMQ__Connections__Default__HostName
