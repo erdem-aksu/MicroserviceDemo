@@ -60,6 +60,7 @@ jobs:
       - name: Build docker image
         if: steps.cache-publish.outputs.cache-hit == 'true'
         run: |
+          cd etc/docker
           export DOCKER_IMAGE_PREFIX=${REGISTRY}/${IMAGE_NAME,,}
           if [ "${{ github.ref_type }}" == "tag" ]; then
             export DOCKER_IMAGE_TAG=${{ github.ref_name }}
