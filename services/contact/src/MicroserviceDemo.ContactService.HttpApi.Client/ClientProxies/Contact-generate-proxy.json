@@ -1,0 +1,315 @@
+{
+  "modules": {
+    "contact": {
+      "rootPath": "contact",
+      "remoteServiceName": "ContactService",
+      "controllers": {
+        "MicroserviceDemo.ContactService.ContactController": {
+          "controllerName": "Contact",
+          "controllerGroupName": "Contact",
+          "isRemoteService": true,
+          "apiVersion": null,
+          "type": "MicroserviceDemo.ContactService.ContactController",
+          "interfaces": [
+            {
+              "type": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            }
+          ],
+          "actions": {
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/contact/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ContactService.Contacts.ContactDto",
+                "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/contact",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ContactService.Contacts.GetContactsInput, MicroserviceDemo.ContactService.Application.Contracts",
+                  "type": "MicroserviceDemo.ContactService.Contacts.GetContactsInput",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.GetContactsInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Location",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<MicroserviceDemo.ContactService.Contacts.ContactListDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MicroserviceDemo.ContactService.Contacts.ContactListDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            },
+            "GetReportAsyncByInput": {
+              "uniqueName": "GetReportAsyncByInput",
+              "name": "GetReportAsync",
+              "httpMethod": "GET",
+              "url": "api/contact/report",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ContactService.Contacts.GetContactsReportInput, MicroserviceDemo.ContactService.Application.Contracts",
+                  "type": "MicroserviceDemo.ContactService.Contacts.GetContactsReportInput",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.GetContactsReportInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Location",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ContactService.Contacts.ContactReportDto",
+                "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactReportDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            },
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/contact",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ContactService.Contacts.ContactCreateDto, MicroserviceDemo.ContactService.Application.Contracts",
+                  "type": "MicroserviceDemo.ContactService.Contacts.ContactCreateDto",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "MicroserviceDemo.ContactService.Contacts.ContactCreateDto",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ContactService.Contacts.ContactDto",
+                "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/contact/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ContactService.Contacts.ContactUpdateDto, MicroserviceDemo.ContactService.Application.Contracts",
+                  "type": "MicroserviceDemo.ContactService.Contacts.ContactUpdateDto",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactUpdateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "MicroserviceDemo.ContactService.Contacts.ContactUpdateDto",
+                  "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactUpdateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ContactService.Contacts.ContactDto",
+                "typeSimple": "MicroserviceDemo.ContactService.Contacts.ContactDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/contact/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ContactService.Contacts.IContactAppService"
+            }
+          }
+        }
+      }
+    }
+  },
+  "types": {}
+}

@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using MicroserviceDemo.AdministrationService;
+using MicroserviceDemo.ContactService;
 using MicroserviceDemo.IdentityService;
 using MicroserviceDemo.Localization;
+using MicroserviceDemo.ReportService;
 using MicroserviceDemo.Shared.Hosting.AspNetCore;
 using MicroserviceDemo.Web.Bundling;
 using MicroserviceDemo.Web.Menus;
@@ -63,7 +65,9 @@ namespace MicroserviceDemo.Web;
     typeof(MicroserviceDemoSharedHostingAspNetCoreModule),
     typeof(MicroserviceDemoSharedLocalizationModule),
     typeof(AdministrationServiceHttpApiClientModule),
-    typeof(IdentityServiceHttpApiClientModule)
+    typeof(IdentityServiceHttpApiClientModule),
+    typeof(ContactServiceHttpApiClientModule),
+    typeof(ReportServiceHttpApiClientModule)
 )]
 public class MicroserviceDemoWebModule : AbpModule
 {
@@ -216,6 +220,8 @@ public class MicroserviceDemoWebModule : AbpModule
                     options.Scope.Add("role");
                     options.Scope.Add("AdministrationService");
                     options.Scope.Add("IdentityService");
+                    options.Scope.Add("ContactService");
+                    options.Scope.Add("ReportService");
                 }
             );
     }

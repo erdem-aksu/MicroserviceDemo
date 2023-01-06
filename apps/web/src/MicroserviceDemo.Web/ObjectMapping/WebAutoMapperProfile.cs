@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MicroserviceDemo.ContactService.Contacts;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 
@@ -15,5 +16,9 @@ public class WebAutoMapperProfile : Profile
 
         CreateMap<IdentityRoleDto, IdentityRoleUpdateDto>()
             .MapExtraProperties();
+
+        CreateMap<ContactDto, ContactUpdateDto>()
+            .MapExtraProperties();
+        CreateMap<ContactInfoDto, ContactInfoCreateOrUpdateDto>();
     }
 }

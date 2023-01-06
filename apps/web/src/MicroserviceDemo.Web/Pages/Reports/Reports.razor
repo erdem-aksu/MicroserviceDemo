@@ -1,0 +1,74 @@
+@page "/reports"
+@using MicroserviceDemo.Web.Helpers
+@using MicroserviceDemo.ReportService.Reports
+@using MicroserviceDemo.ReportService
+@inherits WebPageBase
+
+<MudToolBar Class="my-2">
+    <div>
+        <MudText Typo="Typo.h5">@L["Reports"]</MudText>
+        @if (BreadcrumbItems.Count > 0)
+        {
+            <MudBreadcrumbs Class="pa-0" MaxItems="4" Items="@BreadcrumbItems"></MudBreadcrumbs>
+        }
+    </div>
+    <MudSpacer/>
+    @if (HasCreatePermission)
+    {
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Create" OnClick="@OpenCreateModalAsync">@L["NewReport"]</MudButton>
+    }
+</MudToolBar>
+<MudContainer MaxWidth="MaxWidth.False" Class="mb-6">
+    <MudPaper Class="relative overflow-hidden">
+        <MudOverlay Visible="@IsGridLoading" LightBackground="true" Absolute="true">
+            <MudProgressCircular Color="Color.Secondary" Indeterminate="true"/>
+        </MudOverlay>
+
+        <MudDataGrid @ref="Grid" T="ReportListDto" ServerData="ReadGridData" SortMode="SortMode.Multiple" Hideable="true">
+            <ToolBarContent>
+                <MudTextField @bind-Value="SearchText" Placeholder="@L["Search"]" Adornment="Adornment.Start" Immediate="true" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 ml-auto flex-grow-0"></MudTextField>
+                <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Icon="@Icons.Material.Filled.Refresh" OnClick="@Grid.ReloadServerData" Class="mt-3 ml-2">@L["Refresh"]</MudIconButton>
+            </ToolBarContent>
+            <Columns>
+                <Column T="ReportListDto" Field="@nameof(ReportListDto.Id)" Hidden="true" Sortable="false" Filterable="false"/>
+                <Column T="ReportListDto" Field="@nameof(ReportListDto.CreationTime)" Title="@L["CreationTime"]"/>
+                <Column T="ReportListDto" Field="@nameof(ReportListDto.Status)" Title="@L["Status"]">
+                    <CellTemplate>@UiTextFormatter.Format(context.Item.Status, L)</CellTemplate>
+                </Column>
+                <Column T="ReportListDto" Field="@nameof(ReportListDto.Name)" Title="@L["Name"]"/>
+                <Column T="ReportListDto">
+                    <CellTemplate>
+                        <MudMenu EndIcon="@Icons.Material.Filled.KeyboardArrowDown" Label="@L["Actions"]" Color="Color.Primary" Variant="Variant.Outlined" Size="Size.Small" Dense="true" AnchorOrigin="Origin.BottomLeft">
+                            @if (context.Item.Status == ReportStatus.Completed)
+                            {
+                                <MudMenuItem OnClick="@(() => DownloadReportAsync(context.Item))">@L["Download"]</MudMenuItem>
+                            }
+                            @if (HasDeletePermission)
+                            {
+                                <MudMenuItem OnClick="@(() => DeleteEntityAsync(context.Item))">@L["Delete"]</MudMenuItem>
+                            }
+                        </MudMenu>
+                    </CellTemplate>
+                </Column>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="ReportListDto"/>
+            </PagerContent>
+        </MudDataGrid>
+    </MudPaper>
+</MudContainer>
+
+@if (HasCreatePermission)
+{
+    <MudDialog @ref="CreateModal" @bind-IsVisible="IsCreateModalVisible">
+        <DialogContent>
+            <MudForm Model="@NewEntity" @ref="@CreateForm">
+                <MudTextField @bind-Value="@NewEntity.Location" Label="@L["Location"]" Validation="@(ReportCreateDtoValidator.ValidateValue())" For="@(() => NewEntity.Location)"></MudTextField>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="CloseCreateModal">@L["Cancel"]</MudButton>
+            <MudButton Color="Color.Primary" OnClick="CreateEntityAsync">@L["Create"]</MudButton>
+        </DialogActions>
+    </MudDialog>
+}

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MicroserviceDemo.AdministrationService.DbMigrations;
 using MicroserviceDemo.AdministrationService.EntityFrameworkCore;
+using MicroserviceDemo.ContactService;
+using MicroserviceDemo.ReportService;
 using MicroserviceDemo.Shared.Hosting.AspNetCore;
 using MicroserviceDemo.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -24,9 +26,12 @@ namespace MicroserviceDemo.AdministrationService;
     typeof(AdministrationServiceApplicationModule),
     typeof(AdministrationServiceEntityFrameworkCoreModule),
     typeof(MicroserviceDemoSharedHostingMicroservicesModule),
+    typeof(MicroserviceDemoSharedLocalizationModule),
     typeof(AbpHttpClientIdentityModelWebModule),
     typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
-    typeof(AbpIdentityHttpApiClientModule)
+    typeof(AbpIdentityHttpApiClientModule),
+    typeof(ContactServiceApplicationContractsModule),
+    typeof(ReportServiceApplicationContractsModule)
 )]
 public class AdministrationServiceHttpApiHostModule : AbpModule
 {

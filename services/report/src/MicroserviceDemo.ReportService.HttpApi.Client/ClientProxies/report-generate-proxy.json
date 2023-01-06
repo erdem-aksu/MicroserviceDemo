@@ -1,0 +1,209 @@
+{
+  "modules": {
+    "report": {
+      "rootPath": "report",
+      "remoteServiceName": "ReportService",
+      "controllers": {
+        "MicroserviceDemo.ReportService.ReportController": {
+          "controllerName": "Report",
+          "controllerGroupName": "Report",
+          "isRemoteService": true,
+          "apiVersion": null,
+          "type": "MicroserviceDemo.ReportService.ReportController",
+          "interfaces": [
+            {
+              "type": "MicroserviceDemo.ReportService.Reports.IReportAppService"
+            }
+          ],
+          "actions": {
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/report/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ReportService.Reports.ReportDto",
+                "typeSimple": "MicroserviceDemo.ReportService.Reports.ReportDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ReportService.Reports.IReportAppService"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/report",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ReportService.Reports.GetReportsInput, MicroserviceDemo.ReportService.Application.Contracts",
+                  "type": "MicroserviceDemo.ReportService.Reports.GetReportsInput",
+                  "typeSimple": "MicroserviceDemo.ReportService.Reports.GetReportsInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<MicroserviceDemo.ReportService.Reports.ReportListDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MicroserviceDemo.ReportService.Reports.ReportListDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ReportService.Reports.IReportAppService"
+            },
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/report",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MicroserviceDemo.ReportService.Reports.ReportCreateDto, MicroserviceDemo.ReportService.Application.Contracts",
+                  "type": "MicroserviceDemo.ReportService.Reports.ReportCreateDto",
+                  "typeSimple": "MicroserviceDemo.ReportService.Reports.ReportCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "MicroserviceDemo.ReportService.Reports.ReportCreateDto",
+                  "typeSimple": "MicroserviceDemo.ReportService.Reports.ReportCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "MicroserviceDemo.ReportService.Reports.ReportDto",
+                "typeSimple": "MicroserviceDemo.ReportService.Reports.ReportDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ReportService.Reports.IReportAppService"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/report/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "MicroserviceDemo.ReportService.Reports.IReportAppService"
+            }
+          }
+        }
+      }
+    }
+  },
+  "types": {}
+}

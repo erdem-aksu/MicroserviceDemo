@@ -27,8 +27,8 @@
 
         <MudDataGrid @ref="Grid" T="IdentityRoleDto" ServerData="ReadGridData" SortMode="SortMode.Multiple" Hideable="true">
             <ToolBarContent>
-                <MudSpacer/>
-                <MudTextField @bind-Value="SearchText" Placeholder="Search" Adornment="Adornment.Start" Immediate="true" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                <MudTextField @bind-Value="SearchText" Placeholder="@L["Search"]" Adornment="Adornment.Start" Immediate="true" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 ml-auto flex-grow-0"></MudTextField>
+                <MudIconButton Variant="Variant.Outlined" Color="Color.Primary" Icon="@Icons.Material.Filled.Refresh" OnClick="@Grid.ReloadServerData" Class="mt-3 ml-2">@L["Refresh"]</MudIconButton>
             </ToolBarContent>
             <Columns>
                 <Column T="IdentityRoleDto" Field="@nameof(IdentityRoleDto.Id)" Hidden="true" Sortable="false" Filterable="false"/>
@@ -61,7 +61,7 @@
 
 @if (HasCreatePermission)
 {
-    <MudDialog @ref="CreateModal">
+    <MudDialog @ref="CreateModal" @bind-IsVisible="IsCreateModalVisible">
         <DialogContent>
             <EditForm Model="@NewEntity" @ref="@CreateForm">
                 <DataAnnotationsValidator/>
@@ -78,10 +78,9 @@
     </MudDialog>
 }
 
-@* ************************* EDIT MODAL ************************* *@
 @if (HasUpdatePermission)
 {
-    <MudDialog @ref="EditModal">
+    <MudDialog @ref="EditModal" @bind-IsVisible="IsEditModalVisible">
         <DialogContent>
             <EditForm Model="@EditingEntity" @ref="@EditForm">
                 <DataAnnotationsValidator/>

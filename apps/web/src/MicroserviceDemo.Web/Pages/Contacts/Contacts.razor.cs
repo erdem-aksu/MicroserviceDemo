@@ -2,47 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MicroserviceDemo.AdministrationService.Permissions;
+using FluentValidation;
+using MicroserviceDemo.ContactService.Contacts;
+using MicroserviceDemo.ContactService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
-namespace MicroserviceDemo.Web.Pages.Identity
+namespace MicroserviceDemo.Web.Pages.Contacts
 {
-    public partial class RoleManagement
+    [Authorize(ContactServicePermissions.Contacts.Default)]
+    public partial class Contacts
     {
         [Inject]
-        protected IIdentityRoleAppService RoleAppService { get; set; }
+        protected IContactAppService ContactAppService { get; set; }
 
-        protected const string PermissionProviderName = "R";
+        [Inject]
+        private IValidator<ContactCreateDto> ContactCreateDtoValidator { get; set; }
 
-        private MudDataGrid<IdentityRoleDto> Grid { get; set; }
-        private PagedResultDto<IdentityRoleDto> GridData { get; set; } = new();
+        [Inject]
+        private IValidator<ContactUpdateDto> ContactUpdateDtoValidator { get; set; }
+
+        private MudDataGrid<ContactListDto> Grid { get; set; }
+        public PagedResultDto<ContactListDto> GridData { get; set; } = new();
 
         private bool IsGridLoading { get; set; }
 
-        private IdentityRoleCreateDto NewEntity { get; set; } = new();
-        private IdentityRoleUpdateDto EditingEntity { get; set; } = new();
+        private ContactCreateDto NewEntity { get; set; } = new();
+        private ContactUpdateDto EditingEntity { get; set; } = new();
         private Guid EditingEntityId { get; set; }
 
         private MudDialog CreateModal { get; set; }
-        private bool IsCreateModalVisible;
+        private bool IsCreateModalVisible { get; set; }
 
         private MudDialog EditModal { get; set; }
-        private bool IsEditModalVisible;
+        private bool IsEditModalVisible { get; set; }
 
-        private PermissionManagementModal PermissionManagementModal { get; set; }
-
-        private EditForm CreateForm { get; set; }
-        private EditForm EditForm { get; set; }
+        private MudForm CreateForm { get; set; }
+        private MudForm EditForm { get; set; }
 
         private bool HasCreatePermission { get; set; }
         private bool HasUpdatePermission { get; set; }
         private bool HasDeletePermission { get; set; }
-        private bool HasManagePermissionsPermission { get; set; }
 
         private string SearchText { get; set; }
 
@@ -57,8 +60,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
             BreadcrumbItems = new List<BreadcrumbItem>
             {
                 new(L["Menu:Home"], "/"),
-                new(L["Menu:IdentityManagement"], null, true),
-                new(L["Menu:IdentityManagement.Roles"], "/roles", true)
+                new(L["Menu:Contacts"], "/contacts", true)
             };
 
             return ValueTask.CompletedTask;
@@ -66,19 +68,26 @@ namespace MicroserviceDemo.Web.Pages.Identity
 
         private async Task SetPermissionsAsync()
         {
-            HasCreatePermission = await AuthorizationService.IsGrantedAsync(AdministrationServicePermissions.Identity.Roles.Create);
-            HasUpdatePermission = await AuthorizationService.IsGrantedAsync(AdministrationServicePermissions.Identity.Roles.Update);
-            HasDeletePermission = await AuthorizationService.IsGrantedAsync(AdministrationServicePermissions.Identity.Roles.Delete);
-            HasManagePermissionsPermission = await AuthorizationService.IsGrantedAsync(AdministrationServicePermissions.Identity.Roles.ManagePermissions);
+            HasCreatePermission = await AuthorizationService.IsGrantedAsync(ContactServicePermissions.Contacts.Create);
+            HasUpdatePermission = await AuthorizationService.IsGrantedAsync(ContactServicePermissions.Contacts.Update);
+            HasDeletePermission = await AuthorizationService.IsGrantedAsync(ContactServicePermissions.Contacts.Delete);
         }
 
         private async Task OpenCreateModalAsync()
         {
             try
             {
-                NewEntity = new IdentityRoleCreateDto();
+                CreateForm?.ResetValidation();
 
-                CreateModal?.Show(L["NewRole"]);
+                NewEntity = new ContactCreateDto();
+
+                CreateModal?.Show(
+                    L["NewContact"],
+                    options: new DialogOptions
+                    {
+                        MaxWidth = MaxWidth.Small
+                    }
+                );
                 IsCreateModalVisible = true;
             }
             catch (Exception ex)
@@ -91,9 +100,11 @@ namespace MicroserviceDemo.Web.Pages.Identity
         {
             try
             {
-                if (CreateForm.EditContext?.Validate() ?? false)
+                await CreateForm.Validate();
+
+                if (CreateForm.IsValid)
                 {
-                    await RoleAppService.CreateAsync(NewEntity);
+                    await ContactAppService.CreateAsync(NewEntity);
 
                     CreateModal.Close();
                     IsCreateModalVisible = false;
@@ -110,9 +121,11 @@ namespace MicroserviceDemo.Web.Pages.Identity
         {
             try
             {
-                if (EditForm.EditContext?.Validate() ?? false)
+                await EditForm.Validate();
+
+                if (EditForm.IsValid)
                 {
-                    await RoleAppService.UpdateAsync(EditingEntityId, EditingEntity);
+                    await ContactAppService.UpdateAsync(EditingEntityId, EditingEntity);
 
                     EditModal.Close();
                     IsEditModalVisible = false;
@@ -125,13 +138,13 @@ namespace MicroserviceDemo.Web.Pages.Identity
             }
         }
 
-        private async Task DeleteEntityAsync(IdentityRoleDto entity)
+        private async Task DeleteEntityAsync(ContactListDto entity)
         {
             try
             {
-                if (await Message.Confirm(L["RoleDeletionConfirmationMessage", entity.Name]))
+                if (await Message.Confirm(L["DeletionConfirmationMessage", L["Contact"], entity.Name]))
                 {
-                    await RoleAppService.DeleteAsync(entity.Id);
+                    await ContactAppService.DeleteAsync(entity.Id);
 
                     await Grid.ReloadServerData();
                 }
@@ -148,20 +161,28 @@ namespace MicroserviceDemo.Web.Pages.Identity
             IsCreateModalVisible = false;
         }
 
-        private async Task OpenEditModalAsync(IdentityRoleDto entity)
+        private async Task OpenEditModalAsync(ContactListDto entity)
         {
             try
             {
-                var entityDto = await RoleAppService.GetAsync(entity.Id);
+                EditForm?.ResetValidation();
+
+                var entityDto = await ContactAppService.GetAsync(entity.Id);
 
                 EditingEntityId = entity.Id;
-                EditingEntity = ObjectMapper.Map<IdentityRoleDto, IdentityRoleUpdateDto>(entityDto);
+                EditingEntity = ObjectMapper.Map<ContactDto, ContactUpdateDto>(entityDto);
 
                 await InvokeAsync(
                     () =>
                     {
                         StateHasChanged();
-                        EditModal?.Show(L["Edit"] + " - " + EditingEntity.Name);
+                        EditModal?.Show(
+                            L["Edit"],
+                            options: new DialogOptions
+                            {
+                                MaxWidth = MaxWidth.Small
+                            }
+                        );
                         IsEditModalVisible = true;
                     }
                 );
@@ -178,19 +199,14 @@ namespace MicroserviceDemo.Web.Pages.Identity
             IsEditModalVisible = false;
         }
 
-        private async Task OpenPermissionsModalAsync(IdentityRoleDto role)
-        {
-            await PermissionManagementModal.OpenAsync(PermissionProviderName, role.Id.ToString());
-        }
-
-        private async Task<GridData<IdentityRoleDto>> ReadGridData(GridState<IdentityRoleDto> gridState)
+        private async Task<GridData<ContactListDto>> ReadGridData(GridState<ContactListDto> gridState)
         {
             IsGridLoading = true;
 
             try
             {
-                GridData = await RoleAppService.GetListAsync(
-                    new GetIdentityRolesInput
+                GridData = await ContactAppService.GetListAsync(
+                    new GetContactsInput
                     {
                         MaxResultCount = gridState.PageSize,
                         SkipCount = gridState.Page * gridState.PageSize,
@@ -206,7 +222,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
 
             IsGridLoading = false;
 
-            return new GridData<IdentityRoleDto>
+            return new GridData<ContactListDto>
             {
                 Items = GridData.Items,
                 TotalItems = (int) GridData.TotalCount

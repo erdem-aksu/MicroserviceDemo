@@ -68,6 +68,8 @@ public class ReportRequestedEventHandler : IDistributedEventHandler<ReportReques
             worksheet.Cell(2, 2).Value = contactStats.ContactCount;
             worksheet.Cell(2, 3).Value = contactStats.ContactPhoneCount;
 
+            worksheet.Columns().AdjustToContents();
+
             workbook.SaveAs(memoryStream);
 
             var fileName = $"ContactsReport_{Guid.NewGuid():N}.xlsx";

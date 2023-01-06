@@ -19,6 +19,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private ICurrentApplicationConfigurationCacheResetService CurrentApplicationConfigurationCacheResetService { get; set; }
 
         private MudDialog Modal { get; set; }
+        private bool IsModalVisible { get; set; }
 
         private string ProviderName { get; set; }
         private string ProviderKey { get; set; }
@@ -118,6 +119,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                         MaxWidth = MaxWidth.Medium
                     }
                 );
+                IsModalVisible = true;
             }
             catch (Exception ex)
             {
@@ -128,6 +130,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private void CloseModal()
         {
             Modal.Close();
+            IsModalVisible = false;
         }
 
         private async Task SaveAsync()
@@ -147,6 +150,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                 await CurrentApplicationConfigurationCacheResetService.ResetAsync();
 
                 Modal.Close();
+                IsModalVisible = false;
             }
             catch (Exception ex)
             {

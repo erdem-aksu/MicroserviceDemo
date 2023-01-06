@@ -5,6 +5,8 @@ public class MicroserviceDemoWebMenus
     private const string Prefix = "Web";
 
     public const string Home = Prefix + ".Home";
+    public const string Contacts = Prefix + ".Contacts";
+    public const string Reports = Prefix + ".Reports";
 
     public static class Identity
     {

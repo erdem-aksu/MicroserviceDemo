@@ -340,7 +340,6 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             }
         }
 
-
         client.RemoveAllAllowedGrantTypes();
         foreach (var grantType in grantTypes)
         {

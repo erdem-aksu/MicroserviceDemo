@@ -28,6 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\MicroserviceDemo.Shared.Hosting.Microservices\MicroserviceDemo.Shared.Hosting.Microservices.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\MicroserviceDemo.Shared.Localization\MicroserviceDemo.Shared.Localization.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\contact\src\MicroserviceDemo.ContactService.Application.Contracts\MicroserviceDemo.ContactService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\report\src\MicroserviceDemo.ReportService.Application.Contracts\MicroserviceDemo.ReportService.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,11 +13,13 @@ public class ContactServiceHttpApiClientModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddHttpClientProxies(
+        context.Services.AddStaticHttpClientProxies(
             typeof(ContactServiceApplicationContractsModule).Assembly,
             ContactServiceRemoteServiceConsts.RemoteServiceName
         );
 
-        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<ContactServiceHttpApiClientModule>(); });
+        Configure<AbpVirtualFileSystemOptions>(
+            options => { options.FileSets.AddEmbedded<ContactServiceHttpApiClientModule>(); }
+        );
     }
 }

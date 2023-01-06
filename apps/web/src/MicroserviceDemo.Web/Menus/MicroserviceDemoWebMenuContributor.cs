@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MicroserviceDemo.AdministrationService.Permissions;
+using MicroserviceDemo.ContactService.Permissions;
 using MicroserviceDemo.Localization;
+using MicroserviceDemo.ReportService.Permissions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
@@ -46,6 +48,28 @@ public class MicroserviceDemoWebMenuContributor : IMenuContributor
                 Icons.Material.Sharp.Home,
                 0,
                 requiredPermissionName: AdministrationServicePermissions.Dashboard
+            )
+        );
+
+        context.Menu.Items.Add(
+            new ApplicationMenuItem(
+                MicroserviceDemoWebMenus.Contacts,
+                l["Menu:Contacts"],
+                "/contacts",
+                Icons.Material.Sharp.Group,
+                1,
+                requiredPermissionName: ContactServicePermissions.Contacts.Default
+            )
+        );
+
+        context.Menu.Items.Add(
+            new ApplicationMenuItem(
+                MicroserviceDemoWebMenus.Reports,
+                l["Menu:Reports"],
+                "/reports",
+                Icons.Material.Sharp.Report,
+                2,
+                requiredPermissionName: ReportServicePermissions.Reports.Default
             )
         );
 

@@ -13,11 +13,13 @@ public class ReportServiceHttpApiClientModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddHttpClientProxies(
+        context.Services.AddStaticHttpClientProxies(
             typeof(ReportServiceApplicationContractsModule).Assembly,
             ReportServiceRemoteServiceConsts.RemoteServiceName
         );
 
-        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<ReportServiceHttpApiClientModule>(); });
+        Configure<AbpVirtualFileSystemOptions>(
+            options => { options.FileSets.AddEmbedded<ReportServiceHttpApiClientModule>(); }
+        );
     }
 }

@@ -35,7 +35,11 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private Guid EditingEntityId { get; set; }
 
         private MudDialog CreateModal { get; set; }
+        private bool IsCreateModalVisible;
+
         private MudDialog EditModal { get; set; }
+        private bool IsEditModalVisible;
+
         private PermissionManagementModal PermissionManagementModal { get; set; }
 
         private EditForm CreateForm { get; set; }
@@ -46,7 +50,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private bool HasDeletePermission { get; set; }
         private bool HasManagePermissionsPermission { get; set; }
         private bool HasImpersonationPermission { get; set; }
-        
+
         private string SearchText { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -101,6 +105,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                     .ToArray();
 
                 CreateModal?.Show(L["NewUser"]);
+                IsCreateModalVisible = true;
             }
             catch (Exception ex)
             {
@@ -119,6 +124,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                     await UserAppService.CreateAsync(NewEntity);
 
                     CreateModal.Close();
+                    IsCreateModalVisible = false;
 
                     await Grid.ReloadServerData();
                 }
@@ -140,6 +146,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                     await UserAppService.UpdateAsync(EditingEntityId, EditingEntity);
 
                     EditModal.Close();
+                    IsEditModalVisible = false;
 
                     await Grid.ReloadServerData();
                 }
@@ -170,6 +177,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private void CloseCreateModal()
         {
             CreateModal.Close();
+            IsCreateModalVisible = false;
         }
 
         private async Task OpenEditModalAsync(IdentityUserDto entity)
@@ -197,6 +205,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
                     {
                         StateHasChanged();
                         EditModal?.Show(L["Edit"] + " - " + EditingEntity.UserName);
+                        IsEditModalVisible = true;
                     }
                 );
             }
@@ -209,6 +218,7 @@ namespace MicroserviceDemo.Web.Pages.Identity
         private void CloseEditModal()
         {
             EditModal.Close();
+            IsEditModalVisible = false;
         }
 
         private async Task OpenPermissionsModalAsync(IdentityUserDto user)

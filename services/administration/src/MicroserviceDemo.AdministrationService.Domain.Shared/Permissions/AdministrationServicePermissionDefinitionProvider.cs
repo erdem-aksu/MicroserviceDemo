@@ -13,7 +13,7 @@ namespace MicroserviceDemo.AdministrationService.Permissions
         {
             var group = context.AddGroup(AdministrationServicePermissions.GroupName);
 
-            group.AddPermission(AdministrationServicePermissions.Dashboard, L("Permission:Dashboard"), MultiTenancySides.Tenant);
+            group.AddPermission(AdministrationServicePermissions.Dashboard, L("Permission:Dashboard"));
             group.AddPermission(AdministrationServicePermissions.HangfireDashboard, L("Permission:HangfireDashboard"), MultiTenancySides.Host);
 
             var rolesPermission = group.AddPermission(AdministrationServicePermissions.Identity.Roles.Default, L("Permission:RoleManagement"));

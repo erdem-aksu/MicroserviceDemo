@@ -37,6 +37,12 @@
           "Path": "/api/setting-management/{**everything}"
         }
       },
+      "file-management-route": {
+        "ClusterId": "file-management-cluster",
+        "Match": {
+          "Path": "/api/file/{**everything}"
+        }
+      },
       "Contact Service": {
         "ClusterId": "contactCluster",
         "Match": {
@@ -87,6 +93,13 @@
         }
       },
       "setting-management-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "file-management-cluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
