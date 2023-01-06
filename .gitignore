@@ -361,3 +361,4 @@ appsettings.secrets.json
 /etc/traefik/acme.json
 
 tempkey.jwk
+!authserver.pfx
